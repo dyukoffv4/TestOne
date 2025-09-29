@@ -6,9 +6,8 @@ const json_data = new SharedArray('data_1', function () {
     return JSON.parse(open('../data/data_1.json'));
 });
 
-const saveForm = (message, password) => `message=${message}&password=${password}`;
-const loadPath = (title, password) => `http://slim-3.local/load/${title}?password=${password}`;
-const savePath = (title) => `http://slim-3.local/save/${title}`;
+const loadPath = (title, password) => `http://slim-3.local/cloakroom/load/${title}?password=${password}`;
+const savePath = (title, message, password) => `http://slim-3.local/cloakroom/save/${title}?message=${message}&password=${password}`;
 
 export const options = {
     // Какие-то уникальные опции
@@ -20,7 +19,7 @@ export function setup() {
     return {
         params: {
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         }
     };
@@ -30,7 +29,7 @@ export default function(data) {
     const item = json_data[(__ITER + __VU) % json_data.length];
 
     group('Create message', function () {
-        const result = http.post(savePath(item.title), saveForm(item.message, item.password), data.params);
+        const result = http.post(savePath(item.title, item.message, item.password), '', data.params);
         check(result, {
             'Code check': (r) => r.status === 200
         });

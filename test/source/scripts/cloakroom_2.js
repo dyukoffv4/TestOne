@@ -1,9 +1,8 @@
 import http from 'k6/http';
 import { group, check } from 'k6';
 
-const saveForm = (message) => `message=${message}`;
-const loadPath = (title) => `http://slim-3.local/load/${title}`;
-const savePath = (title) => `http://slim-3.local/save/${title}`;
+const loadPath = (title) => `http://slim-3.local/cloakroom/load/${title}`;
+const savePath = (title, message) => `http://slim-3.local/cloakroom/save/${title}?message=${message}`;
 const saveItem = (vu, id) => { return { title: `title-${vu}-${id}`, message: `message-${vu}-${id}` }; }
 
 var json_data = [saveItem(__VU, 0), saveItem(__VU, 1), saveItem(__VU, 2)];
@@ -27,14 +26,14 @@ export function setup() {
 
 export default function(data) {
     if (__ITER === 0) {
-        for (let item in json_data) http.post(savePath(item.title), saveForm(item.message), data.params);
+        for (let item in json_data) http.post(savePath(item.title, item.message), data.params);
     }
 
     if (Math.random() < 0.5 || json_data.length == 1) {
         group('Create message', function () {
             const item = saveItem(__VU, counter++);
             json_data.push(item);
-            const result = http.post(savePath(item.title), saveForm(item.message), data.params);
+            const result = http.post(savePath(item.title, item.message), data.params);
             check(result, {
                 'Code check': (r) => r.status === 200
             });
