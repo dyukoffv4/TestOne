@@ -1,26 +1,22 @@
 [
     {
-        "user": 0,
-        "data": "hello"
+        "title": "node-1",
+        "message": "message-1",
+        "password": "password-1"
     },
     {
-        "user": 1,
-        "data": "world"
+        "title": "node-2",
+        "message": "message-2",
+        "password": "password-2"
     },
     {
-        "user": 2,
-        "data": "apple"
+        "title": "node-3",
+        "message": "message-3",
+        "password": "password-3"
     },
     {
-        "user": 0,
-        "data": "grape"
-    },
-    {
-        "user": 1,
-        "data": "eagle"
-    },
-    {
-        "user": 2,
-        "data": "raven"
+        "title": "node-4",
+        "message": "message-4",
+        "password": "password-4"
     }
 ]

@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.db import storage
+from app.utils import storage
 
 router = APIRouter(prefix='/load', tags=['load'])
 

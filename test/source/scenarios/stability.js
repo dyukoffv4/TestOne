@@ -1,14 +1,14 @@
-import * as logger_1 from '../scripts/logger_1.js';
-import * as logger_2 from '../scripts/logger_2.js';
+import * as cloakroom_1 from '../scripts/cloakroom_1.js';
+import * as cloakroom_2 from '../scripts/cloakroom_2.js';
 
-function scenario_from_options(scr_name, scr_options = {}, start_time = '0s') {
-    return Object.assign(scr_options,
+function scenario_from_options(s_name, s_options, start_time = '0s') {
+    return Object.assign(s_options,
         {
             executor: 'constant-arrival-rate',
             preAllocatedVUs: 2,
             duration: '1m',
             rate: 1,
-            exec: scr_name,
+            exec: s_name,
             startTime: start_time
         }
     );
@@ -19,8 +19,8 @@ function scenario_from_options(scr_name, scr_options = {}, start_time = '0s') {
 
 export const options = {
     scenarios: {
-        scenario_logger_1: scenario_from_options('scr_logger_1', logger_1.options),
-        scenario_logger_2: scenario_from_options('scr_logger_2', logger_2.options, '1m')
+        scenario_1: scenario_from_options('script_1', cloakroom_1.options),
+        scenario_2: scenario_from_options('script_2', cloakroom_2.options, '1m')
     }
 }
 
@@ -29,26 +29,26 @@ export const options = {
 
 export function setup() {
     return {
-        dt_logger_1: logger_1.setup ? logger_1.setup() : null,
-        dt_logger_2: logger_2.setup ? logger_2.setup() : null
+        data_1: cloakroom_1.setup ? cloakroom_1.setup() : null,
+        data_2: cloakroom_2.setup ? cloakroom_2.setup() : null
     };
 }
 
 // ---
 // Проброс скриптов
 
-export function scr_logger_1(data) {
-    logger_1.default(data.dt_logger_1);
+export function script_1(data) {
+    cloakroom_1.default(data.data_1);
 }
 
-export function scr_logger_2(data) {
-    logger_2.default(data.dt_logger_2);
+export function script_2(data) {
+    cloakroom_2.default(data.data_2);
 }
 
 // ---
 // Общее завершение
 
 export function teardown(data) {
-    if (logger_1.teardown) logger_1.teardown(data.dt_logger_1);
-    if (logger_2.teardown) logger_2.teardown(data.dt_logger_2);
+    if (cloakroom_1.teardown) cloakroom_1.teardown(data.data_1);
+    if (cloakroom_2.teardown) cloakroom_2.teardown(data.data_2);
 }
